@@ -12,24 +12,32 @@ if (!defined('PTSB_INC_DIR')) {
 }
 if (!defined('PTSB_BOOTSTRAP_READY')) {
     define('PTSB_BOOTSTRAP_READY', true);
-    $ptsb_bootstrap_files = [
-        'config.php',
-        'log.php',
-        'parts.php',
-        'rclone.php',
-        'schedule.php',
-        'actions.php',
-        'ajax.php',
-        'ui.php',
-    ];
-    foreach ($ptsb_bootstrap_files as $ptsb_bootstrap_file) {
-        $ptsb_bootstrap_path = PTSB_INC_DIR . '/' . $ptsb_bootstrap_file;
-        if (is_readable($ptsb_bootstrap_path)) {
-            require_once $ptsb_bootstrap_path;
+}
+
+if (!function_exists('ptsb_require_module')) {
+    function ptsb_require_module(string $file): void {
+        $path = PTSB_INC_DIR . '/' . ltrim($file, '/');
+        if (is_readable($path)) {
+            require_once $path;
         }
     }
-    unset($ptsb_bootstrap_files, $ptsb_bootstrap_file, $ptsb_bootstrap_path);
 }
+
+/* -------------------------------------------------------
+ * Configuração base (filtros permitem personalização)
+ * -----------------------------------------------------*/
+ptsb_require_module('config.php');
+
+/* -------------------------------------------------------
+ * Utilidades compartilhadas entre os módulos
+ * -----------------------------------------------------*/
+ptsb_require_module('log.php');
+ptsb_require_module('parts.php');
+ptsb_require_module('rclone.php');
+ptsb_require_module('schedule.php');
+ptsb_require_module('actions.php');
+ptsb_require_module('ajax.php');
+ptsb_require_module('ui.php');
 
 /* -------------------------------------------------------
  * Utilidades gerais
