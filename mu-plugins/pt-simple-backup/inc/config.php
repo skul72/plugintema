@@ -4,6 +4,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Carrega a configuração padrão do plugin e permite overrides via filtros legacy.
+ *
+ * Filtros disponíveis:
+ * - ptsb_config: altera o array completo
+ * - ptsb_remote: ajusta o remote do rclone (ex.: 'meudrive:')
+ * - ptsb_prefix: ajusta o prefixo dos arquivos (ex.: 'site-')
+ */
 function ptsb_cfg(): array {
     $cfg = [
         'remote'         => 'gdrive_backup:',

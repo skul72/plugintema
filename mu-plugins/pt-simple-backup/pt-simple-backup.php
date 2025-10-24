@@ -4,6 +4,33 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!defined('PTSB_PLUGIN_DIR')) {
+    define('PTSB_PLUGIN_DIR', __DIR__);
+}
+if (!defined('PTSB_INC_DIR')) {
+    define('PTSB_INC_DIR', PTSB_PLUGIN_DIR . '/inc');
+}
+if (!defined('PTSB_BOOTSTRAP_READY')) {
+    define('PTSB_BOOTSTRAP_READY', true);
+    $ptsb_bootstrap_files = [
+        'config.php',
+        'log.php',
+        'parts.php',
+        'rclone.php',
+        'schedule.php',
+        'actions.php',
+        'ajax.php',
+        'ui.php',
+    ];
+    foreach ($ptsb_bootstrap_files as $ptsb_bootstrap_file) {
+        $ptsb_bootstrap_path = PTSB_INC_DIR . '/' . $ptsb_bootstrap_file;
+        if (is_readable($ptsb_bootstrap_path)) {
+            require_once $ptsb_bootstrap_path;
+        }
+    }
+    unset($ptsb_bootstrap_files, $ptsb_bootstrap_file, $ptsb_bootstrap_path);
+}
+
 /* -------------------------------------------------------
  * Utilidades gerais
  * -----------------------------------------------------*/
